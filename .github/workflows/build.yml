@@ -1,10 +1,10 @@
 name: Build Muvio App
 
 on:
-  workflow_dispatch:    # permite rodar manualmente
+  workflow_dispatch:
   push:
     tags:
-      - 'v*'            # roda quando você criar tag tipo v1.0, v1.1
+      - 'v*'
 
 jobs:
   build-windows:
@@ -13,27 +13,33 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
+      - name: Upgrade pip
+        run: python -m pip install --upgrade pip
+
       - name: Install dependencies
-        run: pip install pyinstaller yt-dlp PyQt6
+       : pip install pyinstaller yt-dlp PyQt6
+
+      - name: Download ffmpeg for Windows
+        shell: pwsh
+        run: |
+          Invoke-WebRequest -Uri "https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip" -OutFile "ffmpeg.zip"
+          Expand-Archive ffmpeg.zip -DestinationPath "./ffmpeg_dir"
+          $ffmpegExe = Get-ChildItem -Path "./ffmpeg_dir" -Recurse -Filter "ffmpeg.exe" | Select-Object -First 1
+          Copy-Item $ffmpegExe.FullName "./ffmpeg.exe"
 
       - name: Build EXE
-        run: |
-          pyinstaller --windowed --onefile ^
-            --icon="icon.ico" ^
-            --add-data "logo.png;." ^
-            --add-binary "ffmpeg.exe;." ^
-            --name "Muvio" ^
-            app.py
+        shell: cmd
+        run: pyinstaller --windowed --onefile --icon="icon.ico" --add-data "logo.png;." --add-binary "ffmpeg.exe;." --name "Muvio" app.py
 
       - name: Upload Windows EXE
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: muvio-windows
           path: dist/Muvio.exe
@@ -44,30 +50,31 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
+
+      - name: Upgrade pip
+        run: python -m pip install --upgrade pip
 
       - name: Install dependencies
         run: pip install pyinstaller yt-dlp PyQt6
 
-      - name: Make ffmpeg executable
-        run: chmod +x ffmpeg
+      - name: Download ffmpeg for macOS
+        run: |
+          curl -L https://evermeet.cx/ffmpeg/ffmpeg-6.1.1.zip -o ffmpeg.zip
+          unzip ffmpeg.zip -d ffmpeg_dir
+          mv ffmpeg_dir/ffmpeg ./ffmpeg
+          chmod +x ./ffmpeg
 
       - name: Build macOS App
-        run: |
-          pyinstaller --windowed \
-            --icon="icon.icns" \
-            --add-data "logo.png:." \
-            --add-binary "ffmpeg:." \
-            --name "Muvio" \
-            app.py
+        run: pyinstaller --windowed --icon="icon.icns" --add-data "logo.png:." --add-binary "ffmpeg:." --name "Muvio" app.py
 
       - name: Upload macOS APP
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: muvio-macos
           path: dist/Muvio.app

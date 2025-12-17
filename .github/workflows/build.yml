@@ -38,7 +38,6 @@ build-windows:
         name: muvio-windows
         path: dist/Muvio.exe
 
-
   build-macos:
     name: Build macOS APP
     runs-on: macos-latest

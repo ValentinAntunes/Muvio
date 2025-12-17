@@ -42,7 +42,7 @@ jobs:
           --add-data "logo.png;."
           --add-binary "ffmpeg.exe;."
           --name "Muvio"
-          app.py
+          main.py
 
       - name: Upload Windows Artifact
         uses: actions/upload-artifact@v4

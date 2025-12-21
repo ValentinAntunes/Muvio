@@ -143,6 +143,11 @@ class YouTubeDownloader(QMainWindow):
 
     def setup_ui(self):
         central = QWidget()
+        self.setStyleSheet("""
+            QLabel, QLineEdit, QListWidget, QComboBox, QRadioButton, QGroupBox {
+                color: black;
+            }
+        """)
         self.setCentralWidget(central)
         layout = QVBoxLayout(central)
         layout.setSpacing(15)
@@ -472,6 +477,25 @@ class YouTubeDownloader(QMainWindow):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     app.setStyle("Fusion")
+
+    from PyQt6.QtGui import QPalette, QColor
+
+    palette = QPalette()
+
+    palette.setColor(QPalette.ColorRole.Window, QColor(255, 255, 255))
+    palette.setColor(QPalette.ColorRole.WindowText, QColor(0, 0, 0))
+
+    palette.setColor(QPalette.ColorRole.Base, QColor(255, 255, 255))
+    palette.setColor(QPalette.ColorRole.Text, QColor(0, 0, 0))
+
+    palette.setColor(QPalette.ColorRole.Button, QColor(240, 240, 240))
+    palette.setColor(QPalette.ColorRole.ButtonText, QColor(0, 0, 0))
+
+    palette.setColor(QPalette.ColorRole.Highlight, QColor(255, 0, 0))
+    palette.setColor(QPalette.ColorRole.HighlightedText, QColor(255, 255, 255))
+
+    app.setPalette(palette)
+
     window = YouTubeDownloader()
     window.show()
     sys.exit(app.exec())

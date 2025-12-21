@@ -126,7 +126,7 @@ class YouTubeDownloader(QMainWindow):
         super().__init__()
         
         from PyQt6.QtGui import QIcon
-        self.setWindowIcon(QIcon(resource_path("icon.ico")))
+        self.setWindowIcon(QIcon(resource_path("logo.png")))
 
         self.setWindowTitle("Muvio - Download Music and Video")
 
@@ -461,7 +461,7 @@ class YouTubeDownloader(QMainWindow):
         msg = QMessageBox(self)
         msg.setWindowTitle("Sucesso")
         msg.setText(msg_text)
-        msg.setIconPixmap(QPixmap(resource_path("icon.ico")).scaled(48, 48))
+        msg.setIconPixmap(QPixmap(resource_path("logo.png")).scaled(48, 48))
         msg.exec()
 
 

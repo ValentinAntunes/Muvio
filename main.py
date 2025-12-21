@@ -124,6 +124,10 @@ class YouTubeDownloader(QMainWindow):
 
     def __init__(self):
         super().__init__()
+        
+        from PyQt6.QtGui import QIcon
+        self.setWindowIcon(QIcon(resource_path("icon.ico")))
+
         self.setWindowTitle("Muvio - Download Music and Video")
 
         self.resize(650, 750)
@@ -450,10 +454,16 @@ class YouTubeDownloader(QMainWindow):
         self.download_thread.error.connect(self.show_error)
         self.download_thread.start()
 
-    def download_complete(self, msg: str):
+    def download_complete(self, msg_text: str):
         self.progress_bar.setValue(100)
-        self.status_label.setText(msg)
-        QMessageBox.information(self, "Sucesso", msg)
+        self.status_label.setText(msg_text)
+    
+        msg = QMessageBox(self)
+        msg.setWindowTitle("Sucesso")
+        msg.setText(msg_text)
+        msg.setIconPixmap(QPixmap(resource_path("icon.png")).scaled(48, 48))
+        msg.exec()
+
 
     def show_error(self, error: str):
         self.status_label.setText("Erro!")

@@ -287,7 +287,10 @@ class YouTubeDownloader(QMainWindow):
         folder_layout.addWidget(self.folder_label, 1)
 
         folder_btn = QPushButton("📁 Escolher")
-        folder_btn.setStyleSheet(self.button_style("#666"))
+        folder_btn.setStyleSheet(
+            self.button_style("#666") +
+            "QPushButton { padding: 3px 10px; }"
+        )
         folder_btn.clicked.connect(self.choose_folder)
         folder_layout.addWidget(folder_btn)
 

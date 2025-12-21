@@ -37,7 +37,7 @@ jobs:
       - name: Build EXE
         shell: cmd
         run: >
-          pyinstaller --windowed --onefile
+          pyinstaller --windowed --onedir
           --icon="icon.ico"
           --add-data "logo.png;."
           --add-binary "ffmpeg.exe;."

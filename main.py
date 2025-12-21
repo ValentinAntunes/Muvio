@@ -104,6 +104,8 @@ class DownloadThread(QThread):
                     "postprocessor_args": {
                         "ffmpeg": [
                             "-c", "copy",
+                            "-c:a", "aac",
+                            "-b:a", "192k",
                             "-movflags", "+faststart"
                         ]
                     },

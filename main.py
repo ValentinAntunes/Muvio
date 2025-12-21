@@ -461,7 +461,7 @@ class YouTubeDownloader(QMainWindow):
         msg = QMessageBox(self)
         msg.setWindowTitle("Sucesso")
         msg.setText(msg_text)
-        msg.setIconPixmap(QPixmap(resource_path("icon.png")).scaled(48, 48))
+        msg.setIconPixmap(QPixmap(resource_path("icon.ico")).scaled(48, 48))
         msg.exec()
 
 

@@ -1,8 +1,6 @@
 import sys
 import os
 os.environ["QT_STYLE_OVERRIDE"] = "Fusion"
-os.environ["QT_QPA_PLATFORMTHEME"] = "qt5ct"
-
 
 def resource_path(relative_path: str) -> str:
     """
